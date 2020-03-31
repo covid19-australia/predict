@@ -59,8 +59,8 @@ cases = [1, 0, 3, 0, 1, 0, 2, 2, 0, 1, 2, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
 
 def local_linear(y=cases,N_days_predict=2,h=3.4,weight=1):
     '''
-    Local linear estimation is a way to regress a 
-    random variable y given random variable x in a non-parametric way. 
+    Local linear estimation is a non-parametric method to regress a 
+    random variable y given random variable x. 
     It works for both uni-variate and multi-variate data. 
     It includes automatic bandwidth determination. 
     
@@ -69,7 +69,7 @@ def local_linear(y=cases,N_days_predict=2,h=3.4,weight=1):
     
     bw_method: scalar , optional
     This will be used directly as kde.factor. 
-    If None (default), 3.35 is used, which is optimised for cumulative case
+    If None (default), 3.4 is used, which is optimised for cumulative case
     numbers using cross validation.
     
     weights:array_like, optional
@@ -77,7 +77,7 @@ def local_linear(y=cases,N_days_predict=2,h=3.4,weight=1):
     If None (default), the samples are assumed to be equally weighted
     
     The rows of matrix are points to fit, and the columns are the points to predict.
-    As we are cross validating, the matrix xx and so on are square matrices.
+    When we are cross validating, the matrix xx and so on are square.
     Do not change N_days_predict to anything >2 for now.
     '''  
     dates = np.arange(0,len(cases)).T.astype(float)
