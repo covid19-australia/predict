@@ -5,6 +5,23 @@ Created on Tue Mar 31 19:42:03 2020
 @author: Chen Chen
 
 Prediction of confirm cases of coronavirus using local linear models
+
+Example of function inputs as numpy array are
+
+dates
+ 
+array([ 0.,  2.,  4., 38., 39., 40., 41., 42., 43., 44., 45., 46., 47.,
+       48., 49., 50., 51., 52., 53., 54., 55., 56., 57., 58., 59., 60.,
+       61., 62., 63., 64., 65., 66., 67., 68.])
+    
+cases
+
+array([   1,    3,    4,    6,    9,   15,   22,   25,   28,   36,   39,
+         47,   61,   65,   78,   92,  112,  134,  171,  210,  267,  307,
+        353,  436,  533,  669,  818, 1029, 1219, 1405, 1617, 1791, 1918,
+       2032], dtype=int64)   
+
+OR use lists as input 
 """
 
 import pandas as pd
@@ -31,7 +48,7 @@ cases = data['totalConfirmedNumber'].to_numpy()
 #Statistics shows that extrapolating anything more than 2 days is not reliable.
 predict_date = np.hstack((dates,np.arange(1,3,1)+max(dates)))
 
-def ll(y=cases,x=dates,predict_date=predict_date,h=3.35,weight=1):
+def local_linear(y=cases,x=dates,N_days_predict=2,h=3.35,weight=1):
     '''
     Local linear estimation is a way to regress a 
     random variable y given random variable x in a non-parametric way. 
@@ -53,10 +70,13 @@ def ll(y=cases,x=dates,predict_date=predict_date,h=3.35,weight=1):
     
     The rows of matrix are points to fit, and the columns are the points to predict.
     As we are cross validating, the matrix xx and so on are square matrices.
-    ''' 
-  
-    x = x.reshape((-1,1))    
-    y = y.reshape((-1,1)) 
+    Do not change N_days_predict to anything >2 for now.
+    '''  
+    
+    predict_date=np.hstack((dates,np.arange(1,1+N_days_predict,1)+max(dates)))
+    
+    x = np.asarray(x).reshape((-1,1))    
+    y = np.asarray(y).reshape((-1,1)) 
     
     xx = np.absolute(x-predict_date.T)  
 
@@ -78,7 +98,7 @@ def ll(y=cases,x=dates,predict_date=predict_date,h=3.35,weight=1):
     return y_predict.astype(int)
 
 
-prediction = ll(cases,dates)
+prediction = local_linear(cases,dates)
 
 import matplotlib.pyplot as plt
 plt.plot(dates, cases)
