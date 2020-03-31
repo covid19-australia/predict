@@ -58,11 +58,10 @@ def local_linear(y=cases,x=dates,N_days_predict=2,h=3.35,weight=1):
     y,x: array_like
     Datapoints to estimate from. Currently, it only supports 1-D array.
     
-    bw_method:str, scalar or callable, optional
-    The method used to calculate the estimator bandwidth. 
-    This can be ‘scott’, ‘silverman’, a scalar constant. 
-    If a scalar, this will be used directly as kde.factor. 
-    If None (default), ‘scott’ is used. See Notes for more details.
+    bw_method: scalar , optional
+    This will be used directly as kde.factor. 
+    If None (default), 3.35 is used, which is optimised for cumulative case
+    numbers using cross validation.
     
     weights:array_like, optional
     weights of datapoints. This must be the same shape as dataset. 
