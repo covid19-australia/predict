@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append("numpy")
 """
 Created on Tue Mar 31 19:42:03 2020
 
